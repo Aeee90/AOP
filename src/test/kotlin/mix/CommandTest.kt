@@ -8,14 +8,14 @@ class CommandTest {
     @Test
     fun makeCommand(){
 
-        val c = Command.LDA(11.toUByte(), 2000, 2.toUByte())
+        val c = Command.getCommnad("LDA",0, 3, 2000, 2.toUByte())
 
         assert(true) {
             c.toString() == "8 2000, 2(11)"
         }
 
         assert(true){
-            Command.LDA(11.toUByte(), 2000, 2.toUByte()) == Command.LDA(11.toUByte(), 2000, 2.toUByte())
+            Command.getCommnad("LDA",1, 3, 2000, 2.toUByte()) == Command.getCommnad("LDA",1, 3, 2000, 2.toUByte())
         }
     }
 }

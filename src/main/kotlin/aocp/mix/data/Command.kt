@@ -17,22 +17,26 @@ data class Command private constructor(val data: UByteArray) {
         private const val I = 3
         private const val F = 4
 
-        fun LDA(F: UByte, ADDRES: Int, I: UByte): Command = Command(ubyteArrayOf(8.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, F))
-        fun LDX(F: UByte, ADDRES: Int, I: UByte): Command = Command(ubyteArrayOf(15.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, F))
-        fun LDi(i: Int, F: UByte, ADDRES: Int, I: UByte): Command {
-            if(i <= 0 || 6 <= i) {
-                error("Register I is between 1 to 6.")
+        fun getCommnad(op: String, L: Int, R: Int, ADDRES: Int, I: UByte): Command = when(op){
+            "LDA" -> Command(ubyteArrayOf(8.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LDX" -> Command(ubyteArrayOf(15.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD1" -> Command(ubyteArrayOf(9.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD2" -> Command(ubyteArrayOf(10.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD3" -> Command(ubyteArrayOf(11.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD4" -> Command(ubyteArrayOf(12.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD5" -> Command(ubyteArrayOf(13.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD6" -> Command(ubyteArrayOf(14.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LDAN" -> Command(ubyteArrayOf(16.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LDXN" -> Command(ubyteArrayOf(23.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD1N" -> Command(ubyteArrayOf(17.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD2N" -> Command(ubyteArrayOf(18.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD3N" -> Command(ubyteArrayOf(19.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD4N" -> Command(ubyteArrayOf(20.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD5N" -> Command(ubyteArrayOf(21.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            "LD6N" -> Command(ubyteArrayOf(22.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
+            else -> {
+                error("$op is not Operation")
             }
-            return Command(ubyteArrayOf((8 + i).toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, F))
         }
-        fun LDAN(F: UByte, ADDRES: Int, I: UByte): Command = Command(ubyteArrayOf(16.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, F))
-        fun LDXN(F: UByte, ADDRES: Int, I: UByte): Command = Command(ubyteArrayOf(23.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, F))
-        fun LDiN(i: Int, F: UByte, ADDRES: Int, I: UByte): Command {
-            if(i <= 0 || 6 <= i) {
-                error("Register I is between 1 to 6.")
-            }
-            return Command(ubyteArrayOf((16 + i).toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, F))
-        }
-
     }
 }
