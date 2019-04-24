@@ -30,7 +30,7 @@ class StringParser: Parser<Command> {
 
             }
 
-            return Command.getCommnad(op, l, r, adress, i.toUByte())
+            return Command.getCommand(op, l, r, adress, i.toUByte())
         }
     }
 }
