@@ -2,9 +2,12 @@
 - 내 마음대로 책 정리
 
 ## MIX
-- https://en.wikipedia.org/wiki/MIX
+- 출처: https://en.wikipedia.org/wiki/MIX
 
-1. 하드웨어 구조(코드로 구현.)
+1. 하드웨어 구조
+- UByte 단위로 구현.
+- 부호는 각각 +는 1, -는 0으로 구현.
+- 실제 하드웨어 그림: 
 <table class="infobox" style="font-size:88%;">
 <tbody><tr>
 <td align="center"><i>MIX registers</i>
