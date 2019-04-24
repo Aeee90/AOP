@@ -211,7 +211,10 @@
 </td></tr></tbody></table>
 </td></tr></tbody></table>
 
-2. Command 구조
+2. Command
+- 문자열: OP ADRESS,I(F)
+    ex) LDA 2000,2(0:3)
+- 물리적 구조:
 <table style="text-align:center;margin-left:0.5in">
 <tbody><tr>
 <td style="width:15px;"><sup>3</sup><sub>0</sub>
@@ -287,3 +290,4 @@
 </td>
 <td colspan="6" style="background-color:#FCC">Operation
 </td></tr></tbody></table>
+
