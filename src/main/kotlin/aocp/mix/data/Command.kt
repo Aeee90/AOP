@@ -3,8 +3,6 @@ package aocp.mix.data
 @ExperimentalUnsignedTypes
 data class Command private constructor(val idx:String, val data: UByteArray) {
 
-
-
     fun getC() = data[OP].toInt()
     fun getADDRESS() = (data[ADDRESS1].toInt() shl 8) + data[ADDRESS2].toInt()
     fun getI() = data[I].toInt()

@@ -12,7 +12,7 @@ class Storage {
     val rI4 = Disk(3)
     val rI5 = Disk(3)
     val rI6 = Disk(3)
-    val rJ = Disk(3)
+    val rJ = Disk(2)
 
     val memory = Array<Disk>(4000) { Disk(6) }
 }
