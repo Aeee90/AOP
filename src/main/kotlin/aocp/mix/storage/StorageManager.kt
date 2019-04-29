@@ -4,17 +4,14 @@ import aocp.mix.data.Command
 import aocp.mix.interpretor.Observer
 
 @ExperimentalUnsignedTypes
-class StorageManager: Observer<Command>, Runnable {
+class StorageManager: Observer<Command> {
 
     val storage = Storage()
-    val storageDisplay: StorageDisplay
+    private val storageDisplay: StorageDisplay
 
     init {
         storageDisplay = StorageDisplay(storage)
-    }
-
-    override fun run() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        storageDisplay.init()
     }
 
     override fun notify(data: Command) {
