@@ -1,13 +1,15 @@
 package aocp.mix.storage
 
 import aocp.mix.data.Command
+import aocp.mix.display.Display
+import aocp.mix.display.StorageDisplay
 import aocp.mix.interpretor.Observer
 
 @ExperimentalUnsignedTypes
 class StorageManager: Observer<Command> {
 
     val storage = Storage()
-    private val storageDisplay: StorageDisplay
+    private val storageDisplay: Display
 
     init {
         storageDisplay = StorageDisplay(storage)

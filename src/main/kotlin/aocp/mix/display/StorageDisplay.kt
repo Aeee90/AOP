@@ -1,11 +1,12 @@
-package aocp.mix.storage
+package aocp.mix.display
 
+import aocp.mix.storage.Storage
 import java.awt.*
 import javax.swing.*
 import javax.swing.table.DefaultTableCellRenderer
 
 @ExperimentalUnsignedTypes
-class StorageDisplay(private val storage: Storage) {
+class StorageDisplay(private val storage: Storage): Display {
 
     private lateinit var rA: JTable
     private lateinit var rX: JTable
@@ -13,7 +14,7 @@ class StorageDisplay(private val storage: Storage) {
     private lateinit var rJ: JTable
     private lateinit var memory: JTable
 
-    fun init(){
+    override fun init(){
         JFrame("MIX").apply {
             defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
             layout = GridBagLayout()
@@ -135,7 +136,7 @@ class StorageDisplay(private val storage: Storage) {
         }
     }
 
-    fun render(){
+    override fun render(){
         val sRA = storage.rA.getData()
         for(i in 0 until rA.columnCount) rA.setValueAt( sRA[i].toString(), 0, i)
 
