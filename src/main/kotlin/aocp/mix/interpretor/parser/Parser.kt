@@ -1,4 +1,4 @@
-package aocp.mix.interpretor
+package aocp.mix.interpretor.parser
 
 interface Parser <R> {
     fun parse(): R

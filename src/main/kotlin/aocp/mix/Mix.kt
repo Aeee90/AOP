@@ -1,27 +1,37 @@
 package aocp.mix
 
 import aocp.mix.data.Command
-import aocp.mix.interpretor.Interpretor
+import aocp.mix.interpretor.Interpreter
 import aocp.mix.storage.StorageManager
+import java.util.*
+import kotlin.concurrent.thread
 
 @ExperimentalUnsignedTypes
 object Mix: Runnable {
 
-    private lateinit var interpretor: Interpretor
+    private lateinit var interpreter: Interpreter
 
     override fun run() {
         start()
     }
 
     private fun start(){
-        interpretor = Interpretor()
+        interpreter = Interpreter()
         val storageManager =  StorageManager()
-        interpretor.attach(storageManager)
+        interpreter.attach(storageManager)
 
-        storageManager.storage.rA.load(0, 5, ubyteArrayOf(0.toUByte(),0.toUByte(),0.toUByte(),0.toUByte(),10.toUByte(),10.toUByte()))
-        storageManager.storage.memory[2000].load(0, 5, ubyteArrayOf(1.toUByte(),0.toUByte(),80.toUByte(),3.toUByte(),5.toUByte(),4.toUByte()))
+        Thread(Input()).start()
+    }
 
-        storageManager.notify(Command.getCommand("LDA",3, 4, 2000, 0.toUByte()))
-        //storageManager.notify(Command.getCommand("LDA",0, 5, 2000, 0.toUByte()))
+    class Input: Runnable {
+
+        private val scanner = Scanner(System.`in`)
+
+        override fun run() {
+            while(true){
+                println("명령어를 입력해주세요.")
+                interpreter.parser(scanner.nextLine())
+            }
+        }
     }
 }

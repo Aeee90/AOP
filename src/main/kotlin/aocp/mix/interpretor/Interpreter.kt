@@ -1,10 +1,11 @@
 package aocp.mix.interpretor
 
 import aocp.mix.data.Command
+import aocp.mix.interpretor.parser.StringParser
 
 
 @ExperimentalUnsignedTypes
-class Interpretor {
+class Interpreter {
     //facade pattern
     private val parser = StringParser()
     private val commandSubject = CommandSubject()

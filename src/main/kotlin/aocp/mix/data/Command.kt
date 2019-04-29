@@ -3,19 +3,24 @@ package aocp.mix.data
 @ExperimentalUnsignedTypes
 data class Command private constructor(val idx:String, val data: UByteArray) {
 
-    fun getC() = data[OP].toInt()
+    fun getSign() = if(data[SIGN] == PLUS) PLUS else MINUS
+    fun getC() = data[C].toInt()
     fun getADDRESS() = (data[ADDRESS1].toInt() shl 8) + data[ADDRESS2].toInt()
     fun getI() = data[I].toInt()
     fun getF() = data[F].toInt()
 
-    override fun toString(): String = "${this.getC()} ${getADDRESS()}, ${getI()}(${getF()})"
+    override fun toString(): String = "${if(getSign() == PLUS) "+" else "-"} ${getADDRESS()}, ${getI()}(${getF()}) ${getC()}"
 
     companion object {
-        private const val OP = 0
+        private const val SIGN = 0
         private const val ADDRESS1 = 1
         private const val ADDRESS2 = 2
         private const val I = 3
         private const val F = 4
+        private const val C = 5
+
+        private val PLUS = 1.toUByte()
+        private val MINUS = 0.toUByte()
 
         const val LDA = "LDA"
         const val LDX = "LDX"
@@ -34,25 +39,30 @@ data class Command private constructor(val idx:String, val data: UByteArray) {
         const val LD5N = "LD5N"
         const val LD6N = "LD6N"
 
-        fun getCommand(op: String, L: Int, R: Int, ADDRES: Int, I: UByte): Command = when(op){
-            LDA -> Command(LDA, ubyteArrayOf(8.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LDX -> Command(LDX, ubyteArrayOf(15.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD1 -> Command(LD1, ubyteArrayOf(9.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD2 -> Command(LD2, ubyteArrayOf(10.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD3 -> Command(LD3, ubyteArrayOf(11.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD4 -> Command(LD4, ubyteArrayOf(12.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD5 -> Command(LD5, ubyteArrayOf(13.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD6 -> Command(LD6, ubyteArrayOf(14.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LDAN -> Command(LDAN, ubyteArrayOf(16.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LDXN -> Command(LDXN, ubyteArrayOf(23.toUByte(), (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD1N -> Command(LD1N, ubyteArrayOf(17.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD2N -> Command(LD2N, ubyteArrayOf(18.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD3N -> Command(LD3N, ubyteArrayOf(19.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD4N -> Command(LD4N, ubyteArrayOf(20.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD5N -> Command(LD5N, ubyteArrayOf(21.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            LD6N -> Command(LD6N, ubyteArrayOf(22.toUByte(), (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, (8*L+R).toUByte()))
-            else -> {
-                error("$op is not Operation")
+        fun getCommand(op: String, S: Int, L: Int, R: Int, ADDRES: Int, I: UByte): Command {
+            val s = if(S < 0) MINUS else PLUS
+            val f = (8*L+R).toUByte()
+            return when(op){
+                LDA -> Command(LDA, ubyteArrayOf(s, (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, f, 8.toUByte()))
+                LDX -> Command(LDX, ubyteArrayOf(s, (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, f, 15.toUByte()))
+                LD1 -> Command(LD1, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 9.toUByte()))
+                LD2 -> Command(LD2, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 10.toUByte()))
+                LD3 -> Command(LD3, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 11.toUByte()))
+                LD4 -> Command(LD4, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 12.toUByte()))
+                LD5 -> Command(LD5, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 13.toUByte()))
+                LD6 -> Command(LD6, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 14.toUByte()))
+                LDAN -> Command(LDAN, ubyteArrayOf(s, (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, f, 16.toUByte()))
+                LDXN -> Command(LDXN, ubyteArrayOf(s, (ADDRES shr 8).toUByte().toUByte(), ADDRES.toUByte(), I, f, 23.toUByte()))
+                LD1N -> Command(LD1N, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 17.toUByte()))
+                LD2N -> Command(LD2N, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 18.toUByte()))
+                LD3N -> Command(LD3N, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 19.toUByte()))
+                LD4N -> Command(LD4N, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 20.toUByte()))
+                LD5N -> Command(LD5N, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 21.toUByte()))
+                LD6N -> Command(LD6N, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 22.toUByte()))
+                else -> {
+                    println("Hello")
+                    error("$op is not Operation")
+                }
             }
         }
     }
