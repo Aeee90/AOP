@@ -1,5 +1,6 @@
 package aocp.mix.storage
 
+import aocp.mix.Mix
 import aocp.mix.data.Command
 import aocp.mix.display.Display
 import aocp.mix.display.StorageDisplay
@@ -12,8 +13,14 @@ class StorageManager: Observer<Command> {
     private val storageDisplay: Display
 
     init {
+        initMemory()
+
         storageDisplay = StorageDisplay(storage)
         storageDisplay.init()
+    }
+
+    private fun initMemory(){
+        storage.memory[1].load(0, 5, ubyteArrayOf(1.toUByte(),0.toUByte(),80.toUByte(),3.toUByte(),5.toUByte(),4.toUByte()))
     }
 
     override fun notify(data: Command) {

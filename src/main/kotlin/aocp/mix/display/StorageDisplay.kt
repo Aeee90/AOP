@@ -134,6 +134,8 @@ class StorageDisplay(private val storage: Storage): Display {
             pack()
             isVisible = true
         }
+
+        render()
     }
 
     override fun render(){

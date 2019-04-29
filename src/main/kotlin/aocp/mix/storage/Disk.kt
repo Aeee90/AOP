@@ -31,7 +31,7 @@ class Disk(size: Int) {
 
     override fun toString(): String {
         val sb = StringBuffer("")
-        for(i in 1..(section.size-1)) sb.append(", ").append(section[i])
+        for(i in 1 until section.size) sb.append(", ").append(section[i])
         return "[${if(section[0] == PLUS) "+" else "-"}$sb]"
     }
 }

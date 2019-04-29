@@ -10,6 +10,7 @@ import kotlin.concurrent.thread
 object Mix: Runnable {
 
     private lateinit var interpreter: Interpreter
+    private lateinit var storageManager: StorageManager
 
     override fun run() {
         start()
@@ -17,7 +18,8 @@ object Mix: Runnable {
 
     private fun start(){
         interpreter = Interpreter()
-        val storageManager =  StorageManager()
+        storageManager =  StorageManager()
+
         interpreter.attach(storageManager)
 
         Thread(Input()).start()
