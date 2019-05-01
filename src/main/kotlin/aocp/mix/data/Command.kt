@@ -14,7 +14,7 @@ data class Command private constructor(val idx:String, val data: UByteArray) {
     override fun toString(): String = "${if(getSign() == PLUS) "+" else "-"} ${getADDRESS()}, ${getI()}(${getF()}) ${getC()}"
 
     companion object {
-        val EMPTY_COMMNAD = Command("EMPTY", UByteArray(0) {0.toUByte()})
+        val EMPTY_COMMAND = Command("EMPTY", UByteArray(6) {0.toUByte()})
 
         private const val SIGN = 0
         private const val ADDRESS1 = 1
@@ -66,7 +66,7 @@ data class Command private constructor(val idx:String, val data: UByteArray) {
                 LD6N -> Command(LD6N, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 22.toUByte()))
                 else -> {
                     Util.error("$op is not Operation")
-                    EMPTY_COMMNAD
+                    EMPTY_COMMAND
                 }
             }
         }
