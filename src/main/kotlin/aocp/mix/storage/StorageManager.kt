@@ -1,10 +1,10 @@
 package aocp.mix.storage
 
-import aocp.mix.Mix
 import aocp.mix.data.Command
 import aocp.mix.display.Display
 import aocp.mix.display.StorageDisplay
 import aocp.mix.interpretor.Observer
+import aocp.mix.util.Util
 
 @ExperimentalUnsignedTypes
 class StorageManager: Observer<Command> {
@@ -73,7 +73,7 @@ class StorageManager: Observer<Command> {
             Command.LD6N ->{
                 storage.rI6.loadN(4, 5, storage.memory[data.getADDRESS() + data.getI()].getData())
             }
-            else -> error("Not defined Command.")
+            else -> Util.error("Not defined Command.")
         }
 
         storageDisplay.render()

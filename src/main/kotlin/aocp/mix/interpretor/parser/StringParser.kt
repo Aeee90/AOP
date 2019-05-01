@@ -1,6 +1,7 @@
 package aocp.mix.interpretor.parser
 
 import aocp.mix.data.Command
+import aocp.mix.util.Util
 import kotlin.math.absoluteValue
 
 @ExperimentalUnsignedTypes
@@ -29,7 +30,7 @@ class StringParser: Parser<Command> {
     //tokenize
     override fun parse(): Command {
         val str = this.str
-        if(str.isEmpty()) error("Set String using interpreter(str: String) method")
+        if(str.isEmpty()) Util.error("Set String using interpreter(str: String) method")
         else{
             var op = ""
             var s = 0

@@ -1,5 +1,7 @@
 package aocp.mix.data
 
+import aocp.mix.util.Util
+
 @ExperimentalUnsignedTypes
 data class Command private constructor(val idx:String, val data: UByteArray) {
 
@@ -12,6 +14,8 @@ data class Command private constructor(val idx:String, val data: UByteArray) {
     override fun toString(): String = "${if(getSign() == PLUS) "+" else "-"} ${getADDRESS()}, ${getI()}(${getF()}) ${getC()}"
 
     companion object {
+        private val EMPTY_COMMNAD = Command("EMPTY", UByteArray(0) {0.toUByte()})
+
         private const val SIGN = 0
         private const val ADDRESS1 = 1
         private const val ADDRESS2 = 2
@@ -22,6 +26,7 @@ data class Command private constructor(val idx:String, val data: UByteArray) {
         private val PLUS = 1.toUByte()
         private val MINUS = 0.toUByte()
 
+        const val EMPTY = "EMPTY"
         const val LDA = "LDA"
         const val LDX = "LDX"
         const val LD1 = "LD1"
@@ -60,8 +65,8 @@ data class Command private constructor(val idx:String, val data: UByteArray) {
                 LD5N -> Command(LD5N, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 21.toUByte()))
                 LD6N -> Command(LD6N, ubyteArrayOf(s, (ADDRES shr 8).toUByte(), ADDRES.toUByte(), I, f, 22.toUByte()))
                 else -> {
-                    println("Hello")
-                    error("$op is not Operation")
+                    Util.error("$op is not Operation")
+                    EMPTY_COMMNAD
                 }
             }
         }
