@@ -14,7 +14,7 @@ data class Command private constructor(val idx:String, val data: UByteArray) {
     override fun toString(): String = "${if(getSign() == PLUS) "+" else "-"} ${getADDRESS()}, ${getI()}(${getF()}) ${getC()}"
 
     companion object {
-        private val EMPTY_COMMNAD = Command("EMPTY", UByteArray(0) {0.toUByte()})
+        val EMPTY_COMMNAD = Command("EMPTY", UByteArray(0) {0.toUByte()})
 
         private const val SIGN = 0
         private const val ADDRESS1 = 1

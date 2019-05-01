@@ -30,7 +30,10 @@ class StringParser: Parser<Command> {
     //tokenize
     override fun parse(): Command {
         val str = this.str
-        if(str.isEmpty()) Util.error("Set String using interpreter(str: String) method")
+        if(str.isEmpty()) {
+            Util.error("Set String using interpreter(str: String) method")
+            return Command.EMPTY_COMMNAD
+        }
         else{
             var op = ""
             var s = 0
